@@ -1,6 +1,7 @@
 package main
 
 import (
+	"erp/api/api/routes"
 	"erp/api/config"
 
 	"gorm.io/gorm"
@@ -12,4 +13,5 @@ var (
 
 func main() {
 	defer config.Disconnectdb(db)
+	routes.Route()
 }
