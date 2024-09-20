@@ -1,44 +1,27 @@
-import axios from "axios";
-import React, { useState } from "react";
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from "react-router-dom";
+import RootLayout from "./layouts/RootLayout";
+import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
-const App = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<RootLayout />}>
+      <Route index element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
 
-  const handlesubmit = async () => {
-    const url = `http://localhost:8080/login`;
-    try {
-      const response = await axios.post(url, {
-        username: username,
-        password: password,
-      });
-      // console.log(username, password);
+      <Route path="*" element={<NotFound />} />
+    </Route>
+  )
+);
 
-      if (response.status === 201) {
-        alert(`Variables passed`);
-      }
-    } catch (error) {
-      console.log(`error pasring variables ${error}`);
-    }
-  };
-
-  return (
-    <div>
-      <input
-        placeholder={"username"}
-        type={"text"}
-        name="username"
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        placeholder={"password"}
-        type={"password"}
-        name="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handlesubmit}>Login</button>
-    </div>
-  );
-};
+function App() {
+  return <RouterProvider router={router} />;
+}
 
 export default App;
